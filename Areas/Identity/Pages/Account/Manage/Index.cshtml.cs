@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 
 namespace BlogProject.Areas.Identity.Pages.Account.Manage
 {
@@ -17,15 +18,17 @@ namespace BlogProject.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<BlogUser> _userManager;
         private readonly SignInManager<BlogUser> _signInManager;
         private readonly IImageService _imageService;
+        private readonly IConfiguration _configuration;
 
         public IndexModel(
             UserManager<BlogUser> userManager,
             SignInManager<BlogUser> signInManager,
-            IImageService imageService)
+            IImageService imageService, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _imageService = imageService;
+            _configuration = configuration;
         }
 
         public string Username { get; set; }
@@ -55,7 +58,7 @@ namespace BlogProject.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
             CurrentImage = _imageService.DecodeImage(user.ImageData, user.ContentType);
-
+                    
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber
