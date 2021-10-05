@@ -1,0 +1,61 @@
+﻿@using BlogProject.ViewModels
+@model ContactMe
+@{
+    ViewData["Title"] = "Contact";
+    ViewData["Subtitle"] = "Want to get in touch? Contact me here.";
+
+}
+<div class="container">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <p>Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
+            <div class="my-5">
+                <form asp-action="Contact">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-floating">
+                        <input class="form-control" asp-for="Name" placeholder="Name" />
+                        <label for="Name">Name</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" asp-for="Email" placeholder="Email" />
+                        <label for="Email">Email address</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" asp-for="Phone" placeholder="Phone Number" />
+                        <label for="Phone">Phone Number</label>
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" type="text" asp-for="Subject" placeholder="Subject" />
+                        <label for="Subject">Subject</label>
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+
+                    <br />
+
+                    <div>
+                        <textarea class="form-control" asp-for="Message" rows="5"></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        //Default font size but not for placeholder...
+        $('#Message').summernote({
+        });
+    </script>
+
+
+
+}

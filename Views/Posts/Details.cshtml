@@ -1,0 +1,40 @@
+﻿@using BlogProject.Services  
+@inject IImageService imageService
+@model BlogProject.Models.Post
+
+ 
+@{
+    ViewData["Title"] = Model.Title;
+    ViewData["SubTitle"] = Model.Abstract;
+}
+
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr />
+    <article>
+        <div class="row">
+            <div class="col text-center fw-bold h3">
+                Tags
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col text-center">
+                @foreach(var tag in Model.Tags)
+                {
+                    <a class="btn btn-primary btn-sm border border-dark border-1 p-2 me-2 fw-bolder" asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()">#@tag.Text</a>
+                }
+            </div>
+        </div>
+    </article>
+<hr />
+
+<!-- Display Comments related to this post -->
+<!-- Display the image of the comments author -->
