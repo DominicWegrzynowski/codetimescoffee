@@ -87,15 +87,30 @@ namespace BlogProject.Controllers
 
                 var slug = _slugService.UrlFriendly(post.Title);
 
-                if (!_slugService.IsUnique(slug))
+                //Create a variable to store whether an error has occured
+                var validationError = false;
+
+                if (string.IsNullOrEmpty(slug))
                 {
-                    ModelState.AddModelError("Title", "The Title view provided cannot be used as it results in a duplicate slug.");
+                    validationError = true;
+                    ModelState.AddModelError("Title", "The Title you provided cannot cannot be used as it results in an empty slug");
+                }
+
+                else if (!_slugService.IsUnique(slug))
+                {
+                    validationError = true;
+                    ModelState.AddModelError("","The Title you provided cannot be used as it results in a duplicate slug");
+                }
+
+                if (validationError)
+                {
+                    ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Name");
                     ViewData["TagValues"] = string.Join(",", tagValues);
                     return View(post);
                 }
 
                 post.Slug = slug;
-                
+
                 _context.Add(post);
                 await _context.SaveChangesAsync();
 
@@ -153,22 +168,42 @@ namespace BlogProject.Controllers
             {
                 try
                 {
-                    var newPost = await _context.Posts.Include(p => p.Tags).FirstOrDefaultAsync(p => p.Id == post.Id);
+                    
+                    var originalPost = await _context.Posts.Include(p => p.Tags).FirstOrDefaultAsync(p => p.Id == post.Id);
 
-                    newPost.Updated = DateTime.Now;
-                    newPost.Title = post.Title;
-                    newPost.Abstract = post.Abstract;
-                    newPost.Content = post.Content;
-                    newPost.ReadyStatus = post.ReadyStatus;
+                    originalPost.Updated = DateTime.Now;
+                    originalPost.Title = post.Title;
+                    originalPost.Abstract = post.Abstract;
+                    originalPost.Content = post.Content;
+                    originalPost.ReadyStatus = post.ReadyStatus;
+
+                    var newSlug = _slugService.UrlFriendly(post.Title);
+
+                    if (newSlug != originalPost.Slug)
+                    {
+                        if (_slugService.IsUnique(newSlug))
+                        {
+                            originalPost.Title = post.Title;
+
+                            originalPost.Slug = newSlug;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Title", "This Title cannot be used as it results in a duplicate slug");
+                            ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Name", originalPost.BlogId);
+                            ViewData["TagValues"] = string.Join(",", originalPost.Tags.Select(t => t.Text));
+                            return View(post);
+                        }
+                    }
 
                     if (newImage is not null)
                     {
-                        newPost.ImageData = await _imageService.EncodeImageAsync(newImage);
-                        newPost.ContentType = _imageService.ContentType(newImage);
+                        originalPost.ImageData = await _imageService.EncodeImageAsync(newImage);
+                        originalPost.ContentType = _imageService.ContentType(newImage);
                     }
 
                     //Remove all tags previously in associated with this post
-                    _context.Tags.RemoveRange(newPost.Tags);
+                    _context.Tags.RemoveRange(originalPost.Tags);
 
                     //Add in the new tags from the edit form
                     foreach (var tagText in tagValues)
@@ -176,7 +211,7 @@ namespace BlogProject.Controllers
                         _context.Add(new Tag()
                         {
                             PostId = post.Id,
-                            BlogUserId = newPost.BlogUserId,
+                            BlogUserId = originalPost.BlogUserId,
                             Text = tagText
                         });
                     }
