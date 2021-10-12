@@ -1,12 +1,15 @@
-﻿@using BlogProject.Services 
-@using BlogProject.Models 
-@inject IImageService imageService 
-@model IEnumerable<Post>
+﻿@using BlogProject.Services
+@using BlogProject.Models
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common  
+
+@inject IImageService imageService
+@model IPagedList<Post>
 
 @{
     ViewData["Title"] = "Index";
 }
-
 
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -21,13 +24,13 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Image)
+                            Image
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Title)
+                            Title
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Abstract)
+                            Abstract
                         </th>
                     </tr>
                 </thead>
@@ -53,6 +56,23 @@
                     }
                 </tbody>
             </table>
+
+            <div class="d-flex justify-content-center">
+                <div class="row">
+                    <div class="col-8 gx-3 h2">
+                        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    </div>
+                    <div class="col-4 gx-3">
+                        @Html.PagedListPager(Model, page => Url.Action("BlogPostIndex", new { id = Model.FirstOrDefault().BlogId, page = page }),
+                          new PagedListRenderOptions
+                          {
+                              LiElementClasses = new string[] { "page-item" },
+                              PageClasses = new string[] { "page-link" }
+                          })
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
