@@ -35,18 +35,19 @@ namespace BlogProject.Controllers
         }
 
         // GET: Posts/Details/slug-name
-        public async Task<IActionResult> Details(int id)
+        //[Route("Posts/Details/{slug}")]
+        public async Task<IActionResult> Details(string slug)
         {
-            //if (string.IsNullOrEmpty(slug))
-            //{
-            //    return NotFound();
-            //}
+            if (string.IsNullOrEmpty(slug))
+            {
+                return NotFound();
+            }
 
             var post = await _context.Posts
                 .Include(p => p.Blog)
                 .Include(p => p.BlogUser)
                 .Include(p => p.Tags)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Slug == slug);
 
             if (post == null)
             {
