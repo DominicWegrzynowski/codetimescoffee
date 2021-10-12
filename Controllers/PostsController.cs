@@ -26,7 +26,7 @@ namespace BlogProject.Controllers
             _userManager = userManager;
             _imageService = imageService;
         }
-
+        
         // GET: Posts
         public async Task<IActionResult> Index()
         {
@@ -34,8 +34,20 @@ namespace BlogProject.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        public IActionResult BlogPostIndex(int? id)
+        {
+            if(id is null)
+            {
+                return NotFound();
+            }
+
+            var posts = _context.Posts.Where(p => p.BlogId == id).ToList();
+
+            return View("Index", posts);
+        }
+
         // GET: Posts/Details/slug-name
-        //[Route("Posts/Details/{slug}")]
+        [Route("Posts/Details/{slug}")]
         public async Task<IActionResult> Details(string slug)
         {
             if (string.IsNullOrEmpty(slug))
