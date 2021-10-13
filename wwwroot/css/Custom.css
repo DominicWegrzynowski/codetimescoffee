@@ -43,3 +43,191 @@ a:hover {
     font-weight: bolder;
 }
 
+
+.button-main {
+    background-color: #fff;
+    border: 1px solid #c5c5c5;
+    border-radius: 30px;
+    color: #222;
+    font-size: 14px;
+    padding: 10px 38px;
+}
+
+.button-main:focus {
+    background-color: #bfbfbf;
+    border: 1px solid #c5c5c5;
+    box-shadow: none;
+}
+
+.about-area .about-content .content-subtitle {
+    color: #007bff;
+}
+
+/* ----- About Area ----- */
+.about-area {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.95;
+    position: relative;
+}
+.about-area .about-img img {
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.18);
+    width: 430px;
+}
+
+.about-area .about-content .content-subtitle {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.about-area .about-content .content-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.about-area .about-content .content-description {
+    font-size: 15px;
+}
+
+    .about-area .about-content .content-description p:last-child {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+        margin-bottom: 0;
+        padding-bottom: 27px;
+    }
+
+.about-area .about-content .content-info {
+    font-size: 15px;
+    margin-bottom: 4px;
+    padding: 27px 0;
+}
+
+    .about-area .about-content .content-info > .row:last-child .single-info {
+        margin-bottom: 0;
+    }
+
+    .about-area .about-content .content-info .single-info {
+        margin-bottom: 10px;
+    }
+
+        .about-area .about-content .content-info .single-info > span {
+            color: #333;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .about-area .about-content .content-info .single-info > p {
+            display: inline-block;
+            margin-bottom: 0;
+        }
+
+.about-area .about-content .content-download,
+.about-area .about-content .content-work {
+    margin-right: 16px;
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .about-area .about-img img {
+        -o-object-fit: cover;
+        height: 440px;
+        object-fit: cover;
+    }
+
+    .about-area .about-content .content-subtitle {
+        display: none;
+    }
+
+    .about-area .about-content .content-title {
+        font-size: 22px;
+    }
+
+    .about-area .about-content .content-description {
+        font-size: 14px;
+    }
+
+        .about-area .about-content .content-description p:last-child {
+            padding-bottom: 20px;
+        }
+
+    .about-area .about-content .content-info {
+        font-size: 14px;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .about-area .about-img img {
+        -o-object-fit: cover;
+        border-radius: 50%;
+        display: block;
+        height: 250px;
+        margin: 0 auto 40px auto;
+        object-fit: cover;
+        width: 250px;
+    }
+
+    .about-area .about-content .content-subtitle {
+        font-size: 18px;
+    }
+
+    .about-area .about-content .content-title {
+        font-size: 24px;
+    }
+
+    .about-area .about-content .content-description {
+        font-size: 14px;
+    }
+
+        .about-area .about-content .content-description p:last-child {
+            padding-bottom: 24px;
+        }
+
+    .about-area .about-content .content-info {
+        font-size: 14px;
+        margin-bottom: 0;
+        padding: 24px 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .about-area .about-img img {
+        height: 200px;
+        width: 200px;
+    }
+
+    .about-area .about-content .content-info > .row:last-child .single-info {
+        margin-bottom: 10px;
+    }
+
+    .about-area .about-content .content-info .single-info {
+        display: block;
+        margin-bottom: 10px;
+        width: auto;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .about-area {
+        padding-bottom: 51px;
+    }
+
+        .about-area .about-img img {
+            margin: 0 auto 32px auto;
+        }
+
+        .about-area .about-content .content-subtitle {
+            font-size: 17px;
+        }
+
+        .about-area .about-content .content-title {
+            font-size: 22px;
+        }
+
+        .about-area .about-content .content-download,
+        .about-area .about-content .content-work {
+            margin-bottom: 14px;
+        }
+}
