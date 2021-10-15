@@ -102,6 +102,8 @@ let Search = (str) => {
 
 }
 
+
+
 const swalWithPrimaryButton = Swal.mixin({
     customClass: {
         confirmButton: 'btn btn-primary btn-sm btn-block'

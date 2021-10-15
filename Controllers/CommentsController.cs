@@ -73,11 +73,18 @@ namespace BlogProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                var post = await _context.Posts
+                    .Where(p => p.Id == comment.PostId)
+                    .FirstOrDefaultAsync();
+
+                var slug = post.Slug;
+
                 comment.BlogUserId = _userManager.GetUserId(User);
                 comment.Created = DateTime.Now;
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return Redirect($"/Posts/Details/{slug}#commentSection");
             }
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", comment.BlogUserId);
             ViewData["ModeratorId"] = new SelectList(_context.Users, "Id", "Id", comment.ModeratorId);

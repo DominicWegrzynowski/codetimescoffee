@@ -40,7 +40,7 @@ namespace BlogProject
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-                
+
             services.AddRazorPages();
 
             //Register custom DataService 

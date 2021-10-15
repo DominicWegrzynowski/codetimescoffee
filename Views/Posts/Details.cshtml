@@ -77,24 +77,50 @@
             {
                 <form class="add-comment align-content-center" asp-action="Create" asp-controller="Comments" method="post">
                     @Html.Hidden("PostId", Model.Id) <!--Foreign Key-->
-
                     <div class="form-group mb-3">
                         <label class="h2 control-label fw-bold">Comment:</label>
-                        <textarea name="body" class="form-control" rows="4"></textarea>
+                        <textarea onchange="ValidateComment" id="commentInput" name="body" class="form-control" rows="4"></textarea>
                     </div>
-
-                    <button type="submit" class="btn btn-dark ">Add Comment</button>
-
+                    <button disabled onclick="ValidateComment" id="btnAddComment" type="submit" class="btn btn-dark ">Add Comment</button
                 </form>
             }
             else
             {
                 <a class=" btn btn-block btn-sm btn-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Posts/Details/@Model.Slug">Login to add a comment</a>
-            }
+            }   
 
         <br />
             <!-- Display Comments related to this post -->
             <!-- Display the image of the comments author --> 
+            
+        <section id="commentSection">
+            <span class="btn btn-block btn-dark mt-3 mb-3">@Model.Comments.Count COMMENT(S)</span>
+
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="ps-3 border border-2 rounded-3 p-0 mb-2 bg-light">
+                    <img class="me-2 mt-3 rounded-circle border-3" style="width:60px" src="@imageService.DecodeImage(comment.BlogUser.ImageData, comment.BlogUser.ContentType)" />
+                    <div class="media-body">
+                        <h4>@comment.BlogUser.FullName</h4>
+                        <small><i>Posted on @comment.Created.ToString("MMM dd, yyyy")</i></small>
+                        <p>@comment.Body</p>
+                    </div>
+                </div>
+            }
+
+        </section>
         </div>
     </div>
 </div>
+
+@section Scripts {
+   
+<script src="~/js/Validation.js"></script>
+
+<script>
+
+    ValidateComment();
+
+</script>
+
+}
