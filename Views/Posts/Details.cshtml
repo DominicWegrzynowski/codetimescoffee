@@ -1,17 +1,51 @@
-﻿@using BlogProject.Services  
+﻿@using BlogProject.Services
 @inject IImageService imageService
 @model BlogProject.Models.Post
 
- 
+
 @{
     ViewData["Title"] = Model.Title;
     ViewData["SubTitle"] = Model.Abstract;
+    ViewData["Author"] = Model.BlogUser.FullName;
+    ViewData["Created"] = Model.Created.ToString("MMM dd, yyyy");
 }
 
-<article class="mb-4">
+<article >
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="row">
+                    <h2 class="mb-3">@ViewData["Title"]</h2>
+                    <span class="col-12"><strong>Written by: </strong>@ViewData["Author"]</span>
+                    <span class="mb-2">@ViewData["Created"]</span>
+                </div>
+                <ul class="list-inline text-start mt-3">
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/dev_dominicweg" target="_blank">
+                            <span class="fa-stack fa-sm">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.linkedin.com/in/dominic-wegrzynowski/" target="_blank">
+                            <span class="fa-stack fa-sm">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://github.com/DominicWegrzynowski" target="_blank">
+                            <span class="fa-stack fa-sm">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
                 @Html.Raw(Model.Content)
             </div>
         </div>
@@ -19,22 +53,48 @@
 </article>
 
 <hr />
-    <article>
-        <div class="row">
-            <div class="col text-center fw-bold h3">
-                Tags
-            </div>
+<article>
+    <div class="row">
+        <div class="col text-center fw-bold h3">
+            Tags
         </div>
-        <div class="row mt-2">
-            <div class="col text-center">
-                @foreach(var tag in Model.Tags)
-                {
-                    <a class="btn btn-primary btn-sm border border-dark border-1 p-2 me-2 fw-bolder" asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()">#@tag.Text</a>
-                }
-            </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col text-center">
+            @foreach (var tag in Model.Tags)
+            {
+                <a class="btn btn-primary btn-sm border border-dark border-1 p-2 me-2 fw-bolder" asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()">#@tag.Text</a>
+            }
         </div>
-    </article>
+    </div>
+</article>
 <hr />
 
-<!-- Display Comments related to this post -->
-<!-- Display the image of the comments author -->
+<div class="container">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-12 col-lg-8 col-xl-7">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form class="add-comment align-content-center" asp-action="Create" asp-controller="Comments" method="post">
+                    @Html.Hidden("PostId", Model.Id) <!--Foreign Key-->
+
+                    <div class="form-group mb-3">
+                        <label class="h2 control-label fw-bold">Comment:</label>
+                        <textarea name="body" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark ">Add Comment</button>
+
+                </form>
+            }
+            else
+            {
+                <a class=" btn btn-block btn-sm btn-dark" asp-area="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Posts/Details/@Model.Slug">Login to add a comment</a>
+            }
+
+        <br />
+            <!-- Display Comments related to this post -->
+            <!-- Display the image of the comments author --> 
+        </div>
+    </div>
+</div>
