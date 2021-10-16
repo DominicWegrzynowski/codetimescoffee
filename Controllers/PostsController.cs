@@ -86,6 +86,7 @@ namespace BlogProject.Controllers
                 .Include(p => p.Comments)
                 .ThenInclude(c => c.BlogUser)
                 .FirstOrDefaultAsync(m => m.Slug == slug);
+                
 
             if (post == null)
             {

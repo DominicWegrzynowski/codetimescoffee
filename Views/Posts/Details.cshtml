@@ -81,7 +81,7 @@
                         <label class="h2 control-label fw-bold">Comment:</label>
                         <textarea onchange="ValidateComment" id="commentInput" name="body" class="form-control" rows="4"></textarea>
                     </div>
-                    <button disabled onclick="ValidateComment" id="btnAddComment" type="submit" class="btn btn-dark ">Add Comment</button
+                    <button disabled onclick="ValidateComment" id="btnAddComment" type="submit" class="btn btn-dark">Add Comment</button>
                 </form>
             }
             else
@@ -96,7 +96,7 @@
         <section id="commentSection">
             <span class="btn btn-block btn-dark mt-3 mb-3">@Model.Comments.Count COMMENT(S)</span>
 
-            @foreach (var comment in Model.Comments)
+            @foreach (var comment in Model.Comments.Reverse())
             {
                 <div class="ps-3 border border-2 rounded-3 p-0 mb-2 bg-light">
                     <img class="me-2 mt-3 rounded-circle border-3" style="width:60px" src="@imageService.DecodeImage(comment.BlogUser.ImageData, comment.BlogUser.ContentType)" />

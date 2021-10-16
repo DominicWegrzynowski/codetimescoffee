@@ -16,7 +16,7 @@ namespace BlogProject.Models
         public string ModeratorId { get; set; }
 
         [Required]
-        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and no more than {2} characters long.", MinimumLength = 2)]
+        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and no more than {2} characters long.", MinimumLength = 1)]
         [Display(Name = "Comment")]
         public string Body { get; set; }
 
