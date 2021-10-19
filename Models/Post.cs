@@ -23,7 +23,7 @@ namespace BlogProject.Models
         public string Title { get; set; }
 
         [Required]
-        [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 2)]
+        [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 100)]
         public string Abstract { get; set; }
 
         [Required]

@@ -44,10 +44,23 @@ namespace BlogProject.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id, int? page)
         {
-            var applicationDbContext = _context.Posts.Include(p => p.Blog).Include(p => p.BlogUser);
-            return View(await applicationDbContext.ToListAsync());
+            if (id is null)
+            {
+                return NotFound();
+            }
+
+            var pageNumber = page ?? 1;
+            var pageCount = 6;
+
+            var posts = await _context.Posts
+                .Where(p => p.BlogId == id && p.ReadyStatus == ReadyStatus.ProductionReady)
+                .OrderByDescending(p => p.Created)
+                .ToPagedListAsync(pageNumber, pageCount);
+
+
+            return View(posts);
         }
 
         public async Task<IActionResult> BlogPostIndex(int? id, int? page)

@@ -19,7 +19,7 @@ namespace BlogProject.Models
         public string Name { get; set; }
 
         [Required]
-        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 5)]
+        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 100)]
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
