@@ -1,43 +1,53 @@
 ﻿@model BlogProject.Models.Blog
+@using BlogProject.Services 
+
+@inject IImageService _imageService
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div class="container">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-12 col-lg-8 col-xl-7">
+            <h1>Edit</h1>
 
-<h4>Blog</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <h4>Blog</h4>
+            <hr />
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control"> </textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3 row">
+                    <label >Current Image:</label>
+                    <img src="@_imageService.DecodeImage(Model.ImageData, Model.ContentType)" height="200" width="100" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input type="file" name="NewImage" class="form-control" accept=".jpg,.png,.gif,.jpeg,.svg" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"> </textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" name="NewImage" class="form-control" accept=".jpg,.png,.gif,.jpeg,.svg"/>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

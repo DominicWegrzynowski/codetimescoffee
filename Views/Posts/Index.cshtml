@@ -34,7 +34,7 @@
                                 <br />
                                 <div class="row align-content-center ">
                                     <div class="col-4 text-center">
-                                        <a class="btn btn-primary btn-block" asp-action="Index" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
+                                        <a class="btn btn-primary btn-block" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
                                     </div>
 
                                     @if (User.IsInRole(BlogRole.Administrator.ToString()))
