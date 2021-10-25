@@ -40,14 +40,14 @@
                                     @if (User.IsInRole(BlogRole.Administrator.ToString()))
                                     {
                                         <div class="col-4 text-center">
-                                            <a class="btn btn-warning btn-block" asp-action="Edit" asp-controller="Posts" asp-route-slug="@post.Slug">Edit</a>
+                                            <a class="btn btn-warning btn-block" asp-action="Edit" asp-controller="Posts" asp-route-id="@post.Id">Edit</a>
                                         </div>
                                     }
 
                                     @if (User.IsInRole(BlogRole.Administrator.ToString()))
                                     {
                                         <div class="col-4 text-center">
-                                            <a class="btn btn-danger btn-block" asp-action="Delete" asp-controller="Posts" asp-route-slug="@post.Slug">Delete</a>
+                                            <a class="btn btn-danger btn-block" asp-action="Delete" asp-controller="Posts" asp-route-id="@post.Id">Delete</a>
                                         </div>
                                     }
                                 </div>

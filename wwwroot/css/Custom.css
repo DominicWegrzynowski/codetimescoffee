@@ -73,3 +73,9 @@ a:hover {
     max-height: 4.5em;
     line-height: 1.5em;
 }
+
+
+.button-size {
+    display: inline-block;
+    width: 25%;
+}

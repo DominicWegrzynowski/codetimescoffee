@@ -82,12 +82,7 @@ namespace BlogProject
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
-                //endpoints.MapControllerRoute(
-                //    name: "SlugRoute",
-                //    pattern: "BlogPosts/UrlFriendly/{slug}",
-                //    defaults: new { controller = "Posts", action = "Details"});
-
+            { 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -57,6 +57,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Posts
+        [Route("Posts/Index/{Id}")]
         public async Task<IActionResult> Index(int? id, int? page)
         {
             if (id is null)
@@ -225,7 +226,7 @@ namespace BlogProject.Controllers
             {
                 return NotFound();
             }
-
+                
             if (ModelState.IsValid)
             {
                 try
@@ -291,7 +292,9 @@ namespace BlogProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return Redirect($"/Posts/Index/{post.BlogId}");
+                
             }
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Description", post.BlogId);
             ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id", post.BlogUserId);
@@ -326,7 +329,7 @@ namespace BlogProject.Controllers
             var post = await _context.Posts.FindAsync(id);
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect($"/Posts/Index/{post.BlogId}");
         }
 
         private bool PostExists(int id)
