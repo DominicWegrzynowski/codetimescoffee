@@ -191,7 +191,7 @@ namespace BlogProject.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect($"/Posts/Index/{post.BlogId}");
             }
 
             ViewData["BlogId"] = new SelectList(_context.Blogs, "BlogId", "Name", post.Id);

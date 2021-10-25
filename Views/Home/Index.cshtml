@@ -35,33 +35,29 @@
                                     <p class="card-text">@blog.Description</p>
                                 </div>
                                 <br />
-                                <div class="row row-cols-1 row-cols-md-4 d-flex ">
+                                @if (User.IsInRole(BlogRole.Administrator.ToString()))
+                                {
+                                    <div class="row row-cols-1 row-cols-md-4 d-flex ">
 
-                                    @if (User.IsInRole(BlogRole.Administrator.ToString()))
-                                    {
-                                        
-                                        <a class="col g-1 btn btn-primary btn-block button-size" asp-action="Index" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts</a>
-                                        
-                                        
-                                        <a class="col g-1 btn btn-dark btn-block button-size" asp-action="Create" asp-controller="Posts" asp-route-id="@blog.Id">Write Post</a>
-                                       
-                                        
-                                        <a class="col g-1 align-content-center btn btn-warning btn-block button-size" asp-action="Edit" asp-controller="Blogs" asp-route-id="@blog.Id">Edit</a>
-                                      
-                                        
-                                        <a class="col g-1 btn align-content-center btn-danger btn-block button-size" asp-action="Delete" asp-controller="Blogs" asp-route-id="@blog.Id">Delete</a>
-                                        
-                                    }
+                                            <a class="col g-1 btn btn-primary btn-block button-size" asp-action="Index" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts</a>
 
-                                    @if (!(User.IsInRole(BlogRole.Administrator.ToString())))
-                                    {
+                                            <a class="col g-1 btn btn-dark btn-block button-size" asp-action="Create" asp-controller="Posts" asp-route-id="@blog.Id">Write Post</a>
+
+                                            <a class="col g-1 align-content-center btn btn-warning btn-block button-size" asp-action="Edit" asp-controller="Blogs" asp-route-id="@blog.Id">Edit</a>
+
+                                            <a class="col g-1 btn align-content-center btn-danger btn-block button-size" asp-action="Delete" asp-controller="Blogs" asp-route-id="@blog.Id">Delete</a>
+
+                                    </div>
+                                }
+
+                                @if (!(User.IsInRole(BlogRole.Administrator.ToString())))
+                                {
+                                    <div class="row row-cols-1 d-flex">
                                         <div class="col-12 text-center">
                                             <a class="btn btn-primary btn-block" asp-action="Index" asp-controller="Posts" asp-route-id="@blog.Id">Read Posts</a>
                                         </div>
-                                    }
-
-
-                                </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

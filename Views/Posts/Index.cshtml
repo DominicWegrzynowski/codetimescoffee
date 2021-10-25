@@ -49,30 +49,29 @@
                                     </div>
                                     <br />
 
+                                    @if (User.IsInRole(BlogRole.Administrator.ToString()))
+                                    {
+                                        <div class="row row-cols-1 row-cols-md-3 d-flex alignt-content-center">
 
-                                    <div class="row row-cols-1 row-cols-md-3 d-flex ">
-
-                                        @if (User.IsInRole(BlogRole.Administrator.ToString()))
-                                        {
-
-                                            <a class="col g-1 btn btn-primary btn-block button-size" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
+                                            <a class="col g-1 text-center btn btn-primary btn-block button-size" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
 
 
-                                            <a class="col g-1 align-content-center btn btn-warning btn-block button-size" asp-action="Edit" asp-controller="Posts" asp-route-id="@post.Id">Edit</a>
+                                            <a class="col g-1 text-center btn btn-warning btn-block button-size" asp-action="Edit" asp-controller="Posts" asp-route-id="@post.Id">Edit</a>
 
 
-                                            <a class="col g-1 btn align-content-center btn-danger btn-block button-size" asp-action="Delete" asp-controller="Posts" asp-route-id="@post.Id">Delete</a>
+                                            <a class="col g-1 text-center btn btn-danger btn-block button-size" asp-action="Delete" asp-controller="Posts" asp-route-id="@post.Id">Delete</a>
 
-
-                                        }
-
-                                        @if (!(User.IsInRole(BlogRole.Administrator.ToString())))
-                                        {
+                                        </div>
+                                    }
+                                    @if (!(User.IsInRole(BlogRole.Administrator.ToString())))
+                                    {
+                                        <div class="row row-cols-1 d-flex">
                                             <div class="col-12 text-center">
                                                 <a class="btn btn-primary btn-block" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read Posts</a>
                                             </div>
-                                        }
-                                    </div>
+                                        </div>
+                                    }
+
                                 </div>
                             </div>
                         </div>
