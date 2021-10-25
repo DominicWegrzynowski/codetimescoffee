@@ -11,71 +11,100 @@
 @{
     ViewData["Title"] = "Posts";
 }
+}
 
-
-<div class="container-fluid">
+<div class="container-fluid pt-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-12 col-lg-8 col-xl-7">
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-2 g-6">
                 @foreach (var post in Model)
                 {
-                    <div class="col-sm-2 col-lg-4 mt-3">
-                        <div class="card border-primary border-1 rounded" style="width: 22rem; height: 33rem;">
-                            <img class="card-img-top" height="185" width="200" src="@_imageService.DecodeImage(post.ImageData, post.ContentType)" />
-                            <div class="card-body text-center">
-                                <div>
-                                    <hr class="card-hr" />
-                                    <h5 class="card-title">@post.Title</h5>
-                                    <hr class="card-hr" />
-                                </div>
-                                <div>
-                                    <p class="card-text max-lines">@post.Abstract</p>
-                                </div>
-                                <br />
-                                <div class="row align-content-center ">
-                                    <div class="col-4 text-center">
-                                        <a class="btn btn-primary btn-block" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
+                    @if(post.ReadyStatus == ReadyStatus.ProductionReady || (User.IsInRole(BlogRole.Administrator.ToString())) || (User.IsInRole(BlogRole.Moderator.ToString())) )
+                    {
+                        <div class="col mb-4">
+                            <div class="card h-100 shadow rounded-3 mb-3">
+                                <img class="card-img-top" height="300" width="150" src="@_imageService.DecodeImage(post.ImageData, post.ContentType)" />
+                                <div class="card-body text-center">
+                                    <div>
+                                        <hr class="card-hr" />
+                                        <h5 class="card-title">@post.Title</h5>
+                                        @if (User.IsInRole(BlogRole.Administrator.ToString()))
+                                        {
+                                            @if (post.ReadyStatus == ReadyStatus.Incomplete)
+                                            {
+                                                <h6 class="card-text text-danger">Incomplete</h6>
+                                            }
+                                        }
+                                        @if (User.IsInRole(BlogRole.Administrator.ToString()) || User.IsInRole(BlogRole.Moderator.ToString()))
+                                        {
+                                            @if (post.ReadyStatus == ReadyStatus.Preview)
+                                            {
+                                                <h6 class="card-text text-warning">Preview</h6>
+                                            }
+                                        }
+                                        <hr class="card-hr" />
                                     </div>
+                                    <div>
+                                        <p class="card-text">@post.Abstract</p>
+                                    </div>
+                                    <br />
 
-                                    @if (User.IsInRole(BlogRole.Administrator.ToString()))
-                                    {
-                                        <div class="col-4 text-center">
-                                            <a class="btn btn-warning btn-block" asp-action="Edit" asp-controller="Posts" asp-route-id="@post.Id">Edit</a>
-                                        </div>
-                                    }
 
-                                    @if (User.IsInRole(BlogRole.Administrator.ToString()))
-                                    {
-                                        <div class="col-4 text-center">
-                                            <a class="btn btn-danger btn-block" asp-action="Delete" asp-controller="Posts" asp-route-id="@post.Id">Delete</a>
-                                        </div>
-                                    }
+                                    <div class="row row-cols-1 row-cols-md-3 d-flex ">
+
+                                        @if (User.IsInRole(BlogRole.Administrator.ToString()))
+                                        {
+
+                                            <a class="col g-1 btn btn-primary btn-block button-size" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
+
+
+                                            <a class="col g-1 align-content-center btn btn-warning btn-block button-size" asp-action="Edit" asp-controller="Posts" asp-route-id="@post.Id">Edit</a>
+
+
+                                            <a class="col g-1 btn align-content-center btn-danger btn-block button-size" asp-action="Delete" asp-controller="Posts" asp-route-id="@post.Id">Delete</a>
+
+
+                                        }
+
+                                        @if (!(User.IsInRole(BlogRole.Administrator.ToString())))
+                                        {
+                                            <div class="col-12 text-center">
+                                                <a class="btn btn-primary btn-block" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read Posts</a>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>
     </div>
-</div> 
+
+    <div class="text-center mt-3 mb-3">
+        <a asp-action="Index" asp-controller="Home">Return to Blogs</a>
+    </div>
+
+</div>
+
 
 
 @*<div class="d-flex justify-content-center">
-    <div class="row">
-        @if (Model.PageCount > 1)
-        {
-            <div class="col-12 gx-3 h2">
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            </div>
-            <div class="col-4 gx-3">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
-                    new PagedListRenderOptions
-                    {
-                        LiElementClasses = new string[] { "page-item" },
-                        PageClasses = new string[] { "page-link" }
-                    });
-            </div>
-        }
-    </div>
-</div>*@
+        <div class="row">
+            @if (Model.PageCount > 1)
+            {
+                <div class="col-12 gx-3 h2">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                </div>
+                <div class="col-4 gx-3">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" }
+                        });
+                </div>
+            }
+        </div>
+    </div>*@

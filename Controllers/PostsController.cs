@@ -68,11 +68,12 @@ namespace BlogProject.Controllers
             var pageNumber = page ?? 1;
             var pageCount = 6;
 
-            var posts = await _context.Posts
-                .Where(p => p.BlogId == id && p.ReadyStatus == ReadyStatus.ProductionReady)
-                .OrderByDescending(p => p.Created)
-                .ToPagedListAsync(pageNumber, pageCount);
+            //var posts = await _context.Posts
+            //    .Where(p => p.BlogId == id && p.ReadyStatus == ReadyStatus.ProductionReady)
+            //    .OrderByDescending(p => p.Created)
+            //    .ToPagedListAsync(pageNumber, pageCount);
 
+            var posts = await _context.Posts.Where(p => p.BlogId == id).OrderByDescending(p => p.Created).ToPagedListAsync(pageNumber, pageCount);
 
             return View(posts);
         }
@@ -220,7 +221,7 @@ namespace BlogProject.Controllers
         // POST: Posts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,ReadyStatus")] Post post, IFormFile newImage, List<string> tagValues)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,ReadyStatus,ContentType,ImageData,Image")] Post post, IFormFile newImage, List<string> tagValues)
         {
             if (id != post.Id)
             {
@@ -239,7 +240,7 @@ namespace BlogProject.Controllers
                     originalPost.Abstract = post.Abstract;
                     originalPost.Content = post.Content;
                     originalPost.ReadyStatus = post.ReadyStatus;
-
+                    
                     var newSlug = _slugService.UrlFriendly(post.Title);
 
                     if (newSlug != originalPost.Slug)
@@ -258,12 +259,19 @@ namespace BlogProject.Controllers
                             return View(post);
                         }
                     }
-
-                    if (newImage is not null)
+                    if(post.Image is not null)
                     {
-                        originalPost.ImageData = await _imageService.EncodeImageAsync(newImage);
-                        originalPost.ContentType = _imageService.ContentType(newImage);
+                        originalPost.ImageData = await _imageService.EncodeImageAsync(post.Image);
+                        originalPost.ContentType = _imageService.ContentType(post.Image);
+
                     }
+
+
+                    //if (newImage is not null)
+                    //{
+                    //    originalPost.ImageData = await _imageService.EncodeImageAsync(newImage);
+                    //    originalPost.ContentType = _imageService.ContentType(newImage);
+                    //}
 
                     //Remove all tags previously in associated with this post
                     _context.Tags.RemoveRange(originalPost.Tags);
