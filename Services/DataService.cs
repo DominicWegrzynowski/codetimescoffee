@@ -85,7 +85,7 @@ namespace BlogProject.Services
             };
 
             //Step 2 Repeat: Use the UserManager to create a new user that is defined by adminUser
-            await _userManager.CreateAsync(modUser, "Abc&123!");
+            await _userManager.CreateAsync(modUser, "Abc&123!"); //outdated password hackers ;)
             //Step 3 Repeat: Add this new user to the moderator role
             await _userManager.AddToRoleAsync(adminUser, BlogRole.Moderator.ToString());
 
