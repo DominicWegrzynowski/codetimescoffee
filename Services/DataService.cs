@@ -60,7 +60,7 @@ namespace BlogProject.Services
                 FirstName = "Dominic",
                 LastName = "Wegrzynowski",
                 Email = "dominicwegrzynowski@gmail.com",
-                UserName = "dominicwegrzynowski",
+                UserName = "dominicwegrzynowski@gmail.com",
                 PhoneNumber = "(716) 785-2948",
                 EmailConfirmed = true
             };
