@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Technology Blog" />
     <meta name="author" content="Dominic Wegrzynowski" />
-    <title>Dominic's IT Blog</title>
+    <title>Code x Coffee | Tech Blog</title>
     <title>@ViewData["Title"] - Home</title>
     <!--<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
     <!-- Font Awesome icons (free version)-->
@@ -24,7 +24,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Dominic's IT Blog</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Code Times Coffee</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars"></i>
@@ -50,6 +50,8 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="site-heading">
                         <h1>@ViewData["Title"]</h1>
+                        <hr />
+                        <h2>@ViewData["Subcaption"]</h2>
                         <span class="subheading">@ViewData["Subtitle"]</span>
 
                         <form asp-action="SearchIndex" asp-controller="Posts">

@@ -11180,8 +11180,16 @@ header.masthead .post-heading .meta a {
   header.masthead .page-heading h1, header.masthead .page-heading .h1,
 header.masthead .site-heading h1,
 header.masthead .site-heading .h1 {
-    font-size: 5rem;
+    font-size: 4rem;
   }
+
+header.masthead .page-heading h2, header.masthead .page-heading .h2,
+header.masthead .site-heading h2,
+header.masthead .site-heading .h2 {
+    font-size: 3rem;
+}
+
+
   header.masthead .post-heading h1, header.masthead .post-heading .h1 {
     font-size: 3.5rem;
   }
