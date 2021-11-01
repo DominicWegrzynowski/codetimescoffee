@@ -22,8 +22,6 @@ namespace BlogProject.Services
 
             if (tag is not null)
             {
-                var thing = _context.Tags.AsQueryable();
-
                 var tags = _context.Tags.Where(t => t.Text.ToLower().Replace("", string.Empty) == tag).AsQueryable();
 
                 var tagResult = tags.Single();
