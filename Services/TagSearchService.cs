@@ -16,22 +16,6 @@ namespace BlogProject.Services
             _context = context;
         }
 
-        //public IQueryable<Post> Search(string tag)
-        //{
-        //    var posts = _context.Posts.Where(p => p.ReadyStatus == ReadyStatus.ProductionReady).AsQueryable();
-
-        //    if (tag is not null)
-        //    {
-        //        var tags = _context.Tags.Where(t => t.Text.ToLower().Replace("", string.Empty) == tag).AsQueryable();
-
-        //        var tagResult = tags.Single();
-                
-        //        posts = posts.Where(p => p.Id == tagResult.PostId);
-        //    }
-
-        //    return posts.OrderByDescending(p => p.Created);
-        //}
-
         public IQueryable<Post> SearchTag(string tag)
         {
             var posts = _context.Posts.Where(p => p.ReadyStatus == ReadyStatus.ProductionReady).AsQueryable();
@@ -52,8 +36,5 @@ namespace BlogProject.Services
 
             return posts.OrderByDescending(p => p.Created);
         }
-        
-
-    
     }
 }

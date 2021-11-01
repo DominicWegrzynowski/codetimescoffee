@@ -5,61 +5,93 @@
 @using X.PagedList
 @using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common
-
-
-@inject IImageService imageService
+@inject IImageService _imageService
 @model IPagedList<Post>
 
-<div class="container-fluid">
+@{
+    ViewData["Title"] = "Posts";
+
+    var posts = Model.ToList<Post>();
+}
+
+
+
+<div class="container-fluid pt-5">
+    @if (posts.Count == 0)
+    {
+        <div class="text-center mb-5">
+            <h2 class="text-danger col justify-content-end">"@ViewData["SearchTerm"]" not found</h2>
+        </div>
+    }
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-12 col-lg-8 col-xl-7">
-            <div class="row">
-                @foreach (var post in Model.Reverse())
+            <div class="row row-cols-1 row-cols-md-2 g-6">
+                @foreach (var post in Model)
                 {
-                    <div class="col-sm-2 col-lg-4 mt-3">
-                        <div class="card border-primary border-1 rounded" style="width: 22rem; height: 33rem;">
-                            <img class="card-img-top" height="185" width="200" src="@imageService.DecodeImage(post.ImageData,  post.ContentType)" />
-                            <div class="card-body text-center">
-                                <div>
-                                    <hr class="card-hr" />
-                                    <h5 class="card-title">@post.Title</h5>
-                                    <hr class="card-hr" />
-                                </div>
-                                <div>
-                                    <p class="card-text">@post.Abstract</p>
-                                </div>
+                    @if (post.ReadyStatus == ReadyStatus.ProductionReady || (User.IsInRole(BlogRole.Administrator.ToString())) || (User.IsInRole(BlogRole.Moderator.ToString())))
+                    {
+                        <div class="col mb-4">
+                            <div class="card h-100 shadow rounded-3 mb-3">
+                                <img class="card-img-top" height="300" width="150" src="@_imageService.DecodeImage(post.ImageData, post.ContentType)" />
+                                <div class="card-body text-center">
+                                    <div>
+                                        <hr class="card-hr" />
+                                        <h5 class="card-title">@post.Title</h5>
+                                        @if (User.IsInRole(BlogRole.Administrator.ToString()))
+                                        {
+                                            @if (post.ReadyStatus == ReadyStatus.Incomplete)
+                                            {
+                                                <h6 class="card-text text-danger">Incomplete</h6>
+                                            }
+                                        }
+                                        @if (User.IsInRole(BlogRole.Administrator.ToString()) || User.IsInRole(BlogRole.Moderator.ToString()))
+                                        {
+                                            @if (post.ReadyStatus == ReadyStatus.Preview)
+                                            {
+                                                <h6 class="card-text text-warning">Preview</h6>
+                                            }
+                                        }
+                                        <hr class="card-hr" />
+                                    </div>
+                                    <div>
+                                        <p class="card-text">@post.Abstract</p>
+                                    </div>
+                                    <br />
 
-                                <br />
-                                <div class="text-center">
-                                    <a class="btn btn-dark mb-2" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read More</a>
+                                    @if (User.IsInRole(BlogRole.Administrator.ToString()))
+                                    {
+                                        <div class="row row-cols-1 row-cols-md-3 d-flex alignt-content-center">
+
+                                            <a class="col g-1 text-center btn btn-primary btn-block button-size" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read</a>
+
+
+                                            <a class="col g-1 text-center btn btn-warning btn-block button-size" asp-action="Edit" asp-controller="Posts" asp-route-id="@post.Id">Edit</a>
+
+
+                                            <a class="col g-1 text-center btn btn-danger btn-block button-size" asp-action="Delete" asp-controller="Posts" asp-route-id="@post.Id">Delete</a>
+
+                                        </div>
+                                    }
+                                    @if (!(User.IsInRole(BlogRole.Administrator.ToString())))
+                                    {
+                                        <div class="row row-cols-1 d-flex">
+                                            <div class="col-12 text-center">
+                                                <a class="btn btn-primary btn-block" asp-action="Details" asp-controller="Posts" asp-route-slug="@post.Slug">Read Posts</a>
+                                            </div>
+                                        </div>
+                                    }
+
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                }
-            </div>
-
-            <hr />
-
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="row">
-            <div class="col-12 gx-3 h2">
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            </div>
-            <div class="col-2 gx-3">
-                @if (Model.PageCount >= 1)
-                {
-                    Html.PagedListPager(Model, page => Url.Action("SearchIndex", new { page = page, searchTerm = ViewData["SearchTerm"] }),
-                        new PagedListRenderOptions
-                        {
-                            LiElementClasses = new string[] { "page-item" },
-                            PageClasses = new string[] { "page-link" }
-                        });
+                    }
                 }
             </div>
         </div>
     </div>
+
+    <div class="text-center mt-3 mb-3">
+        <a asp-action="Index" asp-controller="Home">Return to Blogs</a>
+    </div>
+
 </div>
