@@ -52,7 +52,7 @@ namespace BlogProject.Controllers
             var pageNumber = page ?? 1;
             var pageCount = 6;
 
-            var posts = _tagSearchService.Search(tag);
+            var posts = _tagSearchService.SearchTag(tag);
             return View(await posts.ToPagedListAsync(pageNumber, pageCount));
         }
 
